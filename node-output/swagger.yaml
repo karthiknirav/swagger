@@ -1,0 +1,110 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "API for endeavor networks",
+    "description" : "# Endeavour networks devices APIs\n## Contains APIs to manage the Endeavour devices\n### Note : This APIs support \"API token based request\"\n",
+    "version" : "2.0"
+  },
+  "servers" : [ {
+    "url" : "https://api.edgeapi-v1.com/endeavour/",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "paths" : {
+    "/devices" : {
+      "get" : {
+        "summary" : "Returns device details based on the API Key",
+        "description" : "\n**The below table defines the output response this API returns**\n| Name             | Description                                    |\n| ---------------- | -----------------------------------------------|\n| serialid         | If a pet is created successfuly.               |\n| Transformer Id   | If the request is not valid.                   |\n| kva_rating       | KVA rating for the threshold.                  |\n| circuit_config   | Circuit Configuration                          |\n|                  | **a** - Single Phase -  1 current              |\n|                  | **b** - Single Phase 2 current - Line to Neutral (center tapped)|\n|                  | **c** - Single Phase 2 current - Line and Line |\n|                  | **d** - Three Phase - 3 Currents Delta         |\n|                   | **e** - Three Phase- 3 Currents, Wye          |                       \n| temperature_rating| Temprature Rating for transformers.           |\n| voltage_rating   | Voltage Rating.                                |\n| energization_date| When device started reporting.                 |\n| vnom             | Nominal Load Side Voltage.                     |\n| underloadthreshold| Under threshold rating to report on portal.   |\n| criticalloadthreshold| Critical threshold rating to report on portal.|\n| overloadthreshold| Over threshold rating to report on portal.     |\n| pole_number      | Pole device is installed.                      |\n| substation       | Area the  device is installed.                 |\n| location         | Sector/street device is installed.             |\n| mounting         | Mount type on pole.                            |\n| lat              | Latitude .                                     |\n| lng              | Longitude.                                     |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "query",
+          "description" : "(optional) Returns details based on the device serial provided. Remove the parameter if you want to list entire fleet of devices you have access to",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/events/interval/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns event details based on the device_serialid provided within the time stamps",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "(optional) Returns events based on the device serial provided.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "Start time range of the search in epoch",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687183200
+        }, {
+          "name" : "endttime",
+          "in" : "query",
+          "description" : "End time range of the search in epoch",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687269600
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : { },
+    "securitySchemes" : {
+      "ApiKeyAuth" : {
+        "type" : "apiKey",
+        "name" : "X-API-KEY",
+        "in" : "header"
+      }
+    }
+  }
+}
