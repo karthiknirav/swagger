@@ -45,11 +45,11 @@
     "/events/interval/{device_serialid}" : {
       "get" : {
         "summary" : "Returns event details based on the device_serialid provided within the time stamps",
-        "description" : "",
+        "description" : "**The below table defines the output response this API returns**\n| Name             | Description                                    |\n| ---------------- | -----------------------------------------------|\n| epochtime         | Unix time stamp in seconds of the date/time when data was received.               |\n| type   | An Enum describing the type of monitoring data that was sent by the device.                   |\n| value       | Contains a list of json. Each Json represents a device channel or phase and contains key value pair of the monitoring parameters.                        \n",
         "parameters" : [ {
           "name" : "device_serialid",
           "in" : "path",
-          "description" : "(optional) Returns events based on the device serial provided.",
+          "description" : "Returns events based on the device serial provided.",
           "required" : true,
           "style" : "simple",
           "explode" : false,
@@ -79,6 +79,416 @@
             "type" : "integer"
           },
           "example" : 1687269600
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/events/interval/" : {
+      "get" : {
+        "summary" : "Returns all devices based on the tags provided within the time stamps",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n| epochtime         | Unix time stamp in seconds of the date/time when data was received.             |\n| value             | Contains a list of json. Each Json represents a device channel or phase and contains key value pair of the monitoring parameters|.\n|serialid           | device unique id |\n|transformer_id    | unique id the transformer |\n|feeder             | Feeder id the transformer is connected to |\n|Sub Station        | Feeder connected to which substation |\n",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "query",
+          "description" : "tag of the event",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 168
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "Start time range of the search in epoch",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687183200
+        }, {
+          "name" : "endttime",
+          "in" : "query",
+          "description" : "End time range of the search in epoch",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687269600
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/powerquality/live/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns live power quality based on the serialid provided",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n| epoch         | Unix time stamp in seconds of the date/time when data was received.             |\n| phase             |  Channel Readout (phase0 = Channel1; phase1 = Channel2; phase2 = Channel3; phase3 = General Parameters applicable to all Channels)|\n|watt           | Active Power from the channel (1/2/3) |\n|va    | Apparent Power from the channel (1/2/3) |\n|var             | Reactive Power from the channel (1/2/3) |\n|pf        | Power Factor from the channel (1/2/3) |\n|vrms        | VAVE = 1-minute average of the Voltage RMS reading |\n|vthd        | Line Voltage Total Harmonic Distortion |\n|vharm        | Feeder connected to which substation |\n|irms        | IAVE = 1-minute average of the Current RMS reading |\n|ithd        | Line Current Total Harmonic Distortion |\n|iharm        | Line Current Harmonic Component |\n|Export_kwh        | Exported Energy in kWh |\n|Import_kwh        | Imported Energy in kWh |\n|Leading_kvarh        | Leading KVAr-hour |\n|Lagging_kvarh        | Lagging KVAr-hour |\n|Linefreq        | Line Current Harmonic Component |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/powerquality/interval/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns power quality data based on the provided serialid and the time stamps",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n| epoch         | Unix time stamp in seconds of the date/time when data was received.             |\n| phase             |  Channel Readout (phase0 = Channel1; phase1 = Channel2; phase2 = Channel3; phase3 = General Parameters applicable to all Channels)|\n|watt           | Active Power from the channel (1/2/3) |\n|va    | Apparent Power from the channel (1/2/3) |\n|var             | Reactive Power from the channel (1/2/3) |\n|pf        | Power Factor from the channel (1/2/3) |\n|vrms        | VAVE = 1-minute average of the Voltage RMS reading |\n|vthd        | Line Voltage Total Harmonic Distortion |\n|vharm        | Feeder connected to which substation |\n|irms        | IAVE = 1-minute average of the Current RMS reading |\n|ithd        | Line Current Total Harmonic Distortion |\n|iharm        | Line Current Harmonic Component |\n|Export_kwh        | Exported Energy in kWh |\n|Import_kwh        | Imported Energy in kWh |\n|Leading_kvarh        | Leading KVAr-hour |\n|Lagging_kvarh        | Lagging KVAr-hour |\n|Linefreq        | Line Current Harmonic Component |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        }, {
+          "name" : "endtime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/harmonics/interval/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns harmonics data based on the provided serialid and the time stamps",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n| epoch         | Unix time stamp in seconds of the date/time when data was received.             |\n| phase             |  Channel Readout (phase0 = Channel1; phase1 = Channel2; phase2 = Channel3; phase3 = General Parameters applicable to all Channels)|\n|vharm        | Total voltage  harmonics |\n|iharm        | Totcal current harmonics |\n|vharm1- vharm21        | induvidual harmonics |\n|iharm1- iharm21        | induvidual harmonics |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        }, {
+          "name" : "endtime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/temperature/interval/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns temperature data based on the provided serialid and the time stamps",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n|epochtime          | Unix time stamp in seconds of the date/time when data was received.|\n|ambient_temp        | Temperature reading within monitor |\n|device_temp        | Hotspot sensor connected to TRF top oil |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        }, {
+          "name" : "endtime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/aggregate/interval/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns 5 minute avg aggregate of power quality data based on the provided serialid and the \ntime stamps\n| Aggregate:  average of the past 5, 1-minute data.\n",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n| epoch         | Unix time stamp in seconds of the date/time when data was received.             |\n| phase             |  Channel Readout (phase0 = Channel1; phase1 = Channel2; phase2 = Channel3; phase3 = General Parameters applicable to all Channels)|\n|watt           | Active Power from the channel (1/2/3) |\n|va    | Apparent Power from the channel (1/2/3) |\n|var             | Reactive Power from the channel (1/2/3) |\n|pf        | Power Factor from the channel (1/2/3) |\n|vrms        | VAVE = 1-minute average of the Voltage RMS reading |\n|vthd        | Line Voltage Total Harmonic Distortion |\n|vharm        | Feeder connected to which substation |\n|irms        | IAVE = 1-minute average of the Current RMS reading |\n|ithd        | Line Current Total Harmonic Distortion |\n|iharm        | Line Current Harmonic Component |\n|Export_kwh        | Exported Energy in kWh |\n|Import_kwh        | Imported Energy in kWh |\n|Leading_kvarh        | Leading KVAr-hour |\n|Lagging_kvarh        | Lagging KVAr-hour |\n|Linefreq        | Line Current Harmonic Component |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        }, {
+          "name" : "endtime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/aggregate/harmonics/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns 5 minute avg aggregate of harmonics data based on the provided serialid and the \ntime stamps\n| Aggregate:  average of the past 5, 1-minute data.\n",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n| epoch         | Unix time stamp in seconds of the date/time when data was received.             |\n| phase             |  Channel Readout (phase0 = Channel1; phase1 = Channel2; phase2 = Channel3; phase3 = General Parameters applicable to all Channels)|\n|vharm        | Total voltage  harmonics |\n|iharm        | Totcal current harmonics |\n|vharm1- vharm21        | individual harmonics |\n|iharm1- iharm21        | individual harmonics |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        }, {
+          "name" : "endtime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "406" : {
+            "description" : "Invalid device request"
+          },
+          "404" : {
+            "description" : "Contact our support"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/aggregate/temperature/{device_serialid}" : {
+      "get" : {
+        "summary" : "Returns 5 minute avg aggregate of temperature data based on the provided serialid and the \ntime stamps\n| Aggregate:  average of the past 5, 1-minute data.\n",
+        "description" : "**The below table defines the output response this API returns**\n| Name              | Description                                    |\n| ----------------  | -----------------------------------------------|\n|epochtime          | Unix time stamp in seconds of the date/time when data was received.|\n|ambient_temp        | Temperature reading within monitor |\n|device_temp        | Hotspot sensor connected to TRF top oil |\n",
+        "parameters" : [ {
+          "name" : "device_serialid",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "EXXXXXXXXXXXX"
+        }, {
+          "name" : "starttime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
+        }, {
+          "name" : "endtime",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1687317720
         } ],
         "responses" : {
           "200" : {
